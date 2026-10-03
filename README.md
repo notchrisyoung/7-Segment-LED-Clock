@@ -2,7 +2,12 @@
 
 A large wall or desk clock with four 7-segment digits built from addressable RGB LEDs, driven by an ESP8266. A DS3231 real-time clock keeps the time. The clock runs its own Wi-Fi hotspot with a small web page for setting the colour, brightness, 12/24-hour mode and daylight saving, and for syncing the time from your phone.
 
-<!-- PHOTOS: add a photo of the finished clock here, e.g. ![The clock](docs/clock.jpg) -->
+<p align="center"><img src="docs/photos/clock.jpg" alt="The clock on the wall showing 9:59 in blue" width="480"></p>
+
+| Installed | Building it |
+|---|---|
+| ![The clock showing 10:43 in purple](docs/photos/clock-purple.jpg) | ![The back of the clock with the LEDs and the centre module](docs/photos/back-overview.jpg) |
+| Mounted above a shelf, running in purple. Unused segments stay dark, so the leading digit disappears before 10:00. | From the back: the 3D-printed digit housings with the LED strips glued in, and the centre module holding the electronics. More in [How it's built](#how-its-built). |
 
 ## Features
 
@@ -36,6 +41,17 @@ The page has three sliders (brightness, hue and saturation), the 12/24-hour and 
 | 5 V power supply | Sized for the LEDs at your chosen brightness |
 
 Each digit is 7 segments × 3 LEDs. The segment order inside each digit is set by the `displayHourDigit…` / `displayMinuteDigit…` functions in `src/main.cpp`.
+
+## How it's built
+
+Each digit is a 3D-printed frame of seven segment pockets. Short pieces of WS2812B strip (3 LEDs per segment) are hot-glued along the walls of each pocket and wired in series. Between the hours and the minutes sit two small colon modules, each with one WS2812 LED for its dot. They also house the electronics: the USB-C controller board and the DS3231 RTC with its CR2032 backup cell. Power comes in through a DC jack under the centre.
+
+| | |
+|---|---|
+| ![Back of one digit](docs/photos/digit-back.jpg) | ![Centre module from the back](docs/photos/centre-module.jpg) |
+| One digit from the back: 3 LEDs on each wall, hot-glued in place | The colon modules between the digits, with the controller board and RTC |
+| ![The colon module close up](docs/photos/rtc-closeup.jpg) | |
+| Close-up: the USB-C controller board, the colon LED and the RTC's CR2032 cell | |
 
 ## Building
 
