@@ -39,10 +39,13 @@ The page has three sliders (brightness, hue and saturation), the 12/24-hour and 
 | | - Minutes strip on **GPIO 13** (D7): 1 colon LED + 2 digits, sized for 45 LEDs |
 | DS3231 RTC module | I²C on the default pins: SDA = GPIO 4 (D2), SCL = GPIO 5 (D1) |
 | 5 V power supply | Sized for the LEDs at your chosen brightness |
+| 3D-printed case | [Printables model 610020](https://www.printables.com/model/610020-big-wall-mounted-7-segment-led-clock) by Geert |
 
 Each digit is 7 segments × 3 LEDs. The segment order inside each digit is set by the `displayHourDigit…` / `displayMinuteDigit…` functions in `src/main.cpp`.
 
 ## How it's built
+
+The printed parts are Geert's [Big wall mounted 7-segment LED clock](https://www.printables.com/model/610020-big-wall-mounted-7-segment-led-clock) from Printables, about 18.5 × 50 cm. I didn't like that project's software, so the firmware and settings page here are my own.
 
 Each digit is a 3D-printed frame of seven segment pockets. Short pieces of WS2812B strip (3 LEDs per segment) are hot-glued along the walls of each pocket and wired in series. Between the hours and the minutes sit two small colon modules, each with one WS2812 LED for its dot. They also house the electronics: the USB-C controller board and the DS3231 RTC with its CR2032 backup cell. Power comes in through a DC jack under the centre.
 
@@ -94,3 +97,7 @@ The settings page uses these endpoints, which you can also call directly:
 
 - The DST start and end dates are worked out from *today's* day of the week, not from the weekday of March 1 and November 1. So the switch can happen on the wrong day in some years.
 - In 24-hour mode, during DST, the hour after 23:59 can show as `24` instead of `00`.
+
+## Credits
+
+The 3D-printed case and segment design is Geert's [Big wall mounted 7-segment LED clock](https://www.printables.com/model/610020-big-wall-mounted-7-segment-led-clock) on Printables. Print the parts from there. The firmware and settings page in this repo were written separately. They use [FastLED](https://github.com/FastLED/FastLED), [ArduinoJson](https://arduinojson.org/) and NorthernWidget's [DS3231](https://github.com/NorthernWidget/DS3231) library.
