@@ -1,0 +1,10 @@
+# Hotspot name and password
+clock/secrets.h
+
+# Build output / editor cruft
+build/
+.vscode/
+*.bin
+.DS_Store
+Thumbs.db
+desktop.ini
