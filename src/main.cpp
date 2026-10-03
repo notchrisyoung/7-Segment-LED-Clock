@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <FS.h> // this needs to be first, or it all crashes and burns...
 #include <LittleFS.h>
 #include <ESP8266WiFi.h>
@@ -33,8 +34,23 @@ bool fading = false;
 int dstOffset = 0;
 bool enableDST = true;
 
+// Forward declarations (a .cpp file, unlike an Arduino .ino, needs these)
+void setRTCTime(int year, int month, int day, int dow, int hour, int minute, int second);
+void checkDST();
+void saveColorChange();
+void saveConfig();
+void updateLeds();
+void fillSegment(CRGB *leds, int offset, int segmentIndex);
+void displayHourDigitLeft(int offset, int digit);
+void displayHourDigitRight(int offset, int digit);
+void displayMinuteDigitLeft(int offset, int digit);
+void displayMinuteDigitRight(int offset, int digit);
+void setColor(int h, int s, int v);
+void setColor(CHSV chsv);
+void fadeToColor();
+
 // WiFi hotspot the clock creates for its settings page. The name and password
-// live in secrets.h (git-ignored); copy secrets.example.h to secrets.h to set them.
+// live in include/secrets.h (git-ignored); copy include/secrets.example.h to set them.
 #if __has_include("secrets.h")
 #include "secrets.h"
 #else
@@ -417,7 +433,7 @@ void updateLeds(){
     FastLED.show();
 }
 
-void fillSegment(struct CRGB *leds, int offset, int segmentIndex){
+void fillSegment(CRGB *leds, int offset, int segmentIndex){
     fill_solid(leds + offset + segmentIndex * NUM_LEDS_PER_SEGMENT, NUM_LEDS_PER_SEGMENT, currentColor);
 }
 

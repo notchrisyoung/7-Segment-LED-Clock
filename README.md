@@ -35,31 +35,32 @@ The page has three sliders (brightness, hue and saturation), the 12/24-hour and 
 | DS3231 RTC module | I²C on the default pins: SDA = GPIO 4 (D2), SCL = GPIO 5 (D1) |
 | 5 V power supply | Sized for the LEDs at your chosen brightness |
 
-Each digit is 7 segments × 3 LEDs. The segment order inside each digit is set by the `displayHourDigit…` / `displayMinuteDigit…` functions in `clock.ino`.
+Each digit is 7 segments × 3 LEDs. The segment order inside each digit is set by the `displayHourDigit…` / `displayMinuteDigit…` functions in `src/main.cpp`.
 
 ## Building
 
-Arduino IDE with the **ESP8266 board package**, plus these libraries:
+This is a [PlatformIO](https://platformio.org/) project; the VS Code extension is the easiest way to use it. `platformio.ini` pins the board and library versions:
 
-| Library | Version |
-|---|---|
-| FastLED | **3.6.0** (newer releases fail to compile with this sketch) |
-| ArduinoJson | **5.x** (5.13.4 tested; the sketch uses the v5 API) |
-| DS3231 by NorthernWidget | 1.2.0 |
+| Library | Version | Why pinned |
+|---|---|---|
+| FastLED | 3.6.0 | Tested version |
+| ArduinoJson | 5.13.4 | The code uses the ArduinoJson v5 API |
+| DS3231 by NorthernWidget | 1.2.0 | |
 
-Steps:
-1. Copy `clock/secrets.example.h` to `clock/secrets.h` and set the hotspot name and password (8+ characters). `secrets.h` is git-ignored.
-2. Upload `clock/clock.ino`.
-3. Upload the `clock/data/` folder to LittleFS with the *ESP8266 LittleFS Data Upload* tool. This holds the settings page and the default `config.json`.
+1. Copy `include/secrets.example.h` to `include/secrets.h`, then set the hotspot name and password (8+ characters). `secrets.h` is git-ignored.
+2. If your board is a NodeMCU rather than a Wemos D1 mini, change `board` in `platformio.ini` to `nodemcuv2`. The GPIO pins are the same.
+3. Run `pio run -t upload` to flash the firmware.
+4. Run `pio run -t uploadfs` to upload `data/` (the settings page and default `config.json`) to LittleFS.
 
 ## Files
 
 | Path | Purpose |
 |---|---|
-| `clock/clock.ino` | Firmware: LEDs, RTC, DST, web server, settings storage |
-| `clock/data/index.html` | Settings page, served from LittleFS (Bootstrap is inlined, so it works offline) |
-| `clock/data/config.json` | Default settings |
-| `clock/secrets.example.h` | Template for the hotspot name and password |
+| `platformio.ini` | Board, filesystem and pinned libraries |
+| `src/main.cpp` | Firmware: LEDs, RTC, DST, web server, settings storage |
+| `data/index.html` | Settings page, served from LittleFS (Bootstrap is inlined, so it works offline) |
+| `data/config.json` | Default settings |
+| `include/secrets.example.h` | Template for the hotspot name and password |
 
 ## Web API
 
